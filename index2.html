@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Products Store | Ebooks, AI Prompts & More</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #4a6cf7;
+            --primary-dark: #3a56d4;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 8px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--header-height);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-height);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark);
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .mobile-menu-btn:hover {
+            background-color: var(--light-gray);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #4a6cf7 0%, #6a11cb 100%);
+            color: white;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-top: calc(-1 * var(--header-height));
+            padding-top: calc(80px + var(--header-height));
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: white;
+            color: var(--primary);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            min-height: 48px;
+            min-width: 120px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 40px 0;
+            padding: 0 10px;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background-color: white;
+            border: 2px solid var(--light-gray);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 14px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Products Section */
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            color: var(--dark);
+            padding: 0 10px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+            padding: 0 10px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Updated Product Image Styles */
+        .product-image {
+            height: 200px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image .placeholder-icon {
+            font-size: 48px;
+            color: var(--primary);
+            position: absolute;
+        }
+
+        .product-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-category {
+            display: inline-block;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+
+        .product-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .product-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .product-features li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-features li i {
+            color: var(--success);
+            margin-right: 8px;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            background-color: white;
+            padding: 60px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 60px;
+        }
+
+        .payment-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .payment-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .payment-info h2 {
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        .payment-info p {
+            margin-bottom: 20px;
+            color: var(--gray);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+        }
+
+        .payment-method i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .payment-method h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .payment-method p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .payment-form {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: var(--border-radius);
+        }
+
+        .payment-form h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            min-height: 48px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+            padding: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 15px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--primary);
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .close-modal:hover {
+            background-color: var(--light-gray);
+        }
+
+        .modal-title {
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+
+        .modal-message {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Product Detail Modal - FIXED SCROLLING */
+        .product-modal {
+            max-width: 900px;
+            padding: 0;
+            overflow: hidden;
+            max-height: 90vh;
+        }
+
+        .product-modal-content {
+            display: flex;
+            flex-wrap: wrap;
+            max-height: 90vh;
+        }
+
+        /* Updated Modal Image Styles */
+        .product-modal-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-modal-image .placeholder-icon {
+            font-size: 80px;
+            color: var(--primary);
+            position: absolute;
+        }
+
+        .product-modal-details {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .product-modal-title {
+            font-size: clamp(1.5rem, 3vw, 1.8rem);
+            margin-bottom: 15px;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+
+        .product-modal-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .product-modal-description {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .product-modal-features {
+            margin-bottom: 25px;
+        }
+
+        .product-modal-features h4 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-modal-features ul {
+            list-style: none;
+        }
+
+        .product-modal-features li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-modal-features li i {
+            color: var(--success);
+            margin-right: 8px;
+            font-size: 0.8rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .payment-container {
+                gap: 30px;
+            }
+            
+            .product-modal-content {
+                flex-direction: column;
+                max-height: 90vh;
+            }
+            
+            .product-modal-image {
+                height: 300px;
+                min-width: 100%;
+            }
+            
+            .product-modal-details {
+                max-height: calc(90vh - 300px);
+                overflow-y: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .hero {
+                padding: 60px 0;
+                padding-top: calc(60px + var(--header-height));
+            }
+
+            .section-title {
+                margin: 40px 0 30px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .payment-section {
+                padding: 40px 0;
+            }
+
+            .payment-form {
+                padding: 20px;
+            }
+
+            .footer-content {
+                gap: 30px;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .modal-actions .btn {
+                width: 100%;
+            }
+            
+            .product-modal-details {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero {
+                padding: 40px 0;
+                padding-top: calc(40px + var(--header-height));
+                border-radius: 0 0 20px 20px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 5px;
+            }
+            
+            .category-filter {
+                gap: 8px;
+            }
+            
+            .category-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+            
+            .payment-container {
+                gap: 20px;
+            }
+            
+            .payment-info, .payment-form {
+                min-width: 100%;
+            }
+            
+            .footer-column {
+                min-width: 100%;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .product-modal-details {
+                padding: 15px;
+            }
+            
+            .product-modal-image {
+                height: 250px;
+            }
+        }
+
+        /* Loading animation for better UX */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Focus styles for accessibility */
+        button:focus-visible, 
+        a:focus-visible, 
+        input:focus-visible, 
+        textarea:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Prevent horizontal scrolling */
+        body, html {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-download"></i> DigitalStore
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#payment">Payment</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Premium Digital Products for Professionals</h1>
+            <p>Discover our collection of ebooks, AI prompts, cheat sheets, and more to boost your productivity and skills.</p>
+            <a href="#products" class="btn">Explore Products</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="container">
+        <h2 class="section-title">Our Digital Products</h2>
+        
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <button class="category-btn active" data-category="all">All Products</button>
+            <button class="category-btn" data-category="ebook">Ebooks</button>
+            <button class="category-btn" data-category="ai-prompts">AI Prompts</button>
+            <button class="category-btn" data-category="cheat-sheets">Cheat Sheets</button>
+            <button class="category-btn" data-category="templates">Templates</button>
+            <button class="category-btn" data-category="courses">Courses</button>
+        </div>
+        
+        <div class="products-grid">
+            <!-- Ebooks with Images -->
+            <div class="product-card" data-category="ebook">
+                <div class="product-image">
+                    <img src="Gemini_Generated_Image_27ifel27ifel27if.png" alt="Advanced Web Development Ebook Cover">
+                    <i class="fas fa-book placeholder-icon"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Ebook</span>
+                    <h3 class="product-title">Advanced Web Development</h3>
+                    <p class="product-description">Master modern web development techniques with this comprehensive guide.</p>
+                    <div class="product-price">₹499</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> 300+ pages of content</li>
+                        <li><i class="fas fa-check"></i> Code examples & projects</li>
+                        <li><i class="fas fa-check"></i> Lifetime updates</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="1">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="ebook">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Digital Marketing Mastery Ebook Cover">
+                    <i class="fas fa-book placeholder-icon"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Ebook</span>
+                    <h3 class="product-title">Digital Marketing Mastery</h3>
+                    <p class="product-description">Complete guide to digital marketing strategies for 2023 and beyond.</p>
+                    <div class="product-price">₹599</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> SEO, PPC, Social Media</li>
+                        <li><i class="fas fa-check"></i> Case studies included</li>
+                        <li><i class="fas fa-check"></i> Actionable strategies</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="2">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="ebook">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Python for Data Science Ebook Cover">
+                    <i class="fas fa-book placeholder-icon"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Ebook</span>
+                    <h3 class="product-title">Python for Data Science</h3>
+                    <p class="product-description">Learn Python programming and data analysis with practical examples.</p>
+                    <div class="product-price">₹449</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Pandas, NumPy, Matplotlib</li>
+                        <li><i class="fas fa-check"></i> Real-world projects</li>
+                        <li><i class="fas fa-check"></i> Beginner to advanced</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="3">View Details</button>
+                </div>
+            </div>
+
+            <!-- AI Prompts (using icons) -->
+            <div class="product-card" data-category="ai-prompts">
+                <div class="product-image">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">AI Prompts</span>
+                    <h3 class="product-title">AI Content Creation Pack</h3>
+                    <p class="product-description">500+ carefully crafted prompts for AI content generation.</p>
+                    <div class="product-price">₹299</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> 500+ unique prompts</li>
+                        <li><i class="fas fa-check"></i> Multiple categories</li>
+                        <li><i class="fas fa-check"></i> Regular updates</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="4">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="ai-prompts">
+                <div class="product-image">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">AI Prompts</span>
+                    <h3 class="product-title">ChatGPT Business Prompts</h3>
+                    <p class="product-description">Professional prompts for business writing, marketing, and strategy.</p>
+                    <div class="product-price">₹349</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Business templates</li>
+                        <li><i class="fas fa-check"></i> Marketing copy</li>
+                        <li><i class="fas fa-check"></i> Strategy frameworks</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="5">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="ai-prompts">
+                <div class="product-image">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">AI Prompts</span>
+                    <h3 class="product-title">Creative Writing AI Prompts</h3>
+                    <p class="product-description">Inspire your creativity with 300+ prompts for stories, poems, and more.</p>
+                    <div class="product-price">₹249</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Fiction & non-fiction</li>
+                        <li><i class="fas fa-check"></i> Character development</li>
+                        <li><i class="fas fa-check"></i> Plot ideas</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="6">View Details</button>
+                </div>
+            </div>
+
+            <!-- Cheat Sheets (using icons) -->
+            <div class="product-card" data-category="cheat-sheets">
+                <div class="product-image">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Cheat Sheets</span>
+                    <h3 class="product-title">Programming Languages Bundle</h3>
+                    <p class="product-description">Essential cheat sheets for Python, JavaScript, and more.</p>
+                    <div class="product-price">₹199</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> 10+ programming languages</li>
+                        <li><i class="fas fa-check"></i> Syntax reference</li>
+                        <li><i class="fas fa-check"></i> Printable format</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="7">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="cheat-sheets">
+                <div class="product-image">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Cheat Sheets</span>
+                    <h3 class="product-title">Git & GitHub Commands</h3>
+                    <p class="product-description">Complete reference for Git commands and GitHub workflows.</p>
+                    <div class="product-price">₹149</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Essential commands</li>
+                        <li><i class="fas fa-check"></i> Workflow diagrams</li>
+                        <li><i class="fas fa-check"></i> Troubleshooting guide</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="8">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="cheat-sheets">
+                <div class="product-image">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Cheat Sheets</span>
+                    <h3 class="product-title">CSS Flexbox & Grid</h3>
+                    <p class="product-description">Visual guides for CSS Flexbox and Grid layout systems.</p>
+                    <div class="product-price">₹179</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Visual examples</li>
+                        <li><i class="fas fa-check"></i> Property references</li>
+                        <li><i class="fas fa-check"></i> Common layouts</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="9">View Details</button>
+                </div>
+            </div>
+
+            <!-- Templates (using icons) -->
+            <div class="product-card" data-category="templates">
+                <div class="product-image">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Templates</span>
+                    <h3 class="product-title">Business Strategy Templates</h3>
+                    <p class="product-description">Professional templates for business planning and strategy.</p>
+                    <div class="product-price">₹399</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> 15+ editable templates</li>
+                        <li><i class="fas fa-check"></i> Multiple formats</li>
+                        <li><i class="fas fa-check"></i> Customizable designs</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="10">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="templates">
+                <div class="product-image">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Templates</span>
+                    <h3 class="product-title">Social Media Content Calendar</h3>
+                    <p class="product-description">Plan and schedule your social media content with ease.</p>
+                    <div class="product-price">₹299</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Monthly planning</li>
+                        <li><i class="fas fa-check"></i> Content categories</li>
+                        <li><i class="fas fa-check"></i> Performance tracking</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="11">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="templates">
+                <div class="product-image">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Templates</span>
+                    <h3 class="product-title">Notion Productivity System</h3>
+                    <p class="product-description">Complete Notion workspace templates for productivity.</p>
+                    <div class="product-price">₹349</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Task management</li>
+                        <li><i class="fas fa-check"></i> Project tracking</li>
+                        <li><i class="fas fa-check"></i> Habit tracking</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="12">View Details</button>
+                </div>
+            </div>
+
+            <!-- Courses (using icons) -->
+            <div class="product-card" data-category="courses">
+                <div class="product-image">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Course</span>
+                    <h3 class="product-title">Full-Stack Web Development</h3>
+                    <p class="product-description">Complete course covering front-end and back-end development.</p>
+                    <div class="product-price">₹2999</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> 50+ hours of content</li>
+                        <li><i class="fas fa-check"></i> Real projects</li>
+                        <li><i class="fas fa-check"></i> Certificate included</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="13">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="courses">
+                <div class="product-image">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Course</span>
+                    <h3 class="product-title">Digital Marketing Certification</h3>
+                    <p class="product-description">Become a certified digital marketing expert.</p>
+                    <div class="product-price">₹2499</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> 8 modules</li>
+                        <li><i class="fas fa-check"></i> Practical assignments</li>
+                        <li><i class="fas fa-check"></i> Industry recognition</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="14">View Details</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="courses">
+                <div class="product-image">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Course</span>
+                    <h3 class="product-title">Data Science with Python</h3>
+                    <p class="product-description">Learn data analysis, visualization, and machine learning.</p>
+                    <div class="product-price">₹3499</div>
+                    <ul class="product-features">
+                        <li><i class="fas fa-check"></i> Hands-on projects</li>
+                        <li><i class="fas fa-check"></i> ML algorithms</li>
+                        <li><i class="fas fa-check"></i> Portfolio building</li>
+                    </ul>
+                    <button class="btn btn-primary view-details-btn" data-product="15">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section id="payment" class="container">
+        <div class="payment-section">
+            <div class="payment-container">
+                <div class="payment-info">
+                    <h2>Complete Your Purchase</h2>
+                    <p>After selecting a product, please complete the payment using one of the methods below and send the payment confirmation to our email.</p>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method">
+                            <i class="fas fa-qrcode"></i>
+                            <div>
+                                <h3>UPI Payment</h3>
+                                <p>Scan the QR code or use UPI ID: suchiangsanki3@okaxis</p>
+                            </div>
+                        </div>
+                        <div class="payment-method">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h3>Email Confirmation</h3>
+                                <p>Send payment screenshot to suchiangsanki3@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="payment-form">
+                    <h3>Send Payment Confirmation</h3>
+                    <form id="payment-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product">Product Name</label>
+                            <input type="text" id="product" class="form-control" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount Paid (₹)</label>
+                            <input type="number" id="amount" class="form-control" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="transaction">Transaction ID / Reference</label>
+                            <input type="text" id="transaction" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Additional Notes (Optional)</label>
+                            <textarea id="message" class="form-control"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Confirmation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DigitalStore</h3>
+                    <p>Your trusted source for premium digital products that help you learn, grow, and succeed.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#payment">Payment</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>suchiangsanki3@gmail.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-qrcode"></i>
+                            <span>UPI: suchiangsanki3@okaxis</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 DigitalStore. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <h3 class="modal-title">Payment Confirmation Sent!</h3>
+            <p class="modal-message">Thank you for your purchase. We've received your payment confirmation and will deliver your digital product to your email within 24 hours.</p>
+            <button class="btn btn-primary close-modal-btn">OK</button>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content product-modal">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <div class="product-modal-content">
+                <div class="product-modal-image">
+                    <img id="modal-product-image" src="" alt="">
+                    <i class="fas fa-book placeholder-icon" id="modal-product-icon"></i>
+                </div>
+                <div class="product-modal-details">
+                    <span class="product-category" id="modal-product-category">Ebook</span>
+                    <h3 class="product-modal-title" id="modal-product-title">Advanced Web Development</h3>
+                    <div class="product-modal-price" id="modal-product-price">₹499</div>
+                    <p class="product-modal-description" id="modal-product-description">Master modern web development techniques with this comprehensive guide.</p>
+                    
+                    <div class="product-modal-features">
+                        <h4>What's Included:</h4>
+                        <ul id="modal-product-features">
+                            <li><i class="fas fa-check"></i> 300+ pages of content</li>
+                            <li><i class="fas fa-check"></i> Code examples & projects</li>
+                            <li><i class="fas fa-check"></i> Lifetime updates</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" id="modal-buy-btn">Buy Now</button>
+                        <button class="btn btn-outline" id="modal-close-btn">Continue Browsing</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product data with image URLs
+        const products = {
+            1: {
+                title: "Advanced Web Development",
+                category: "ebook",
+                price: "499",
+                description: "Master modern web development techniques with this comprehensive guide covering HTML5, CSS3, JavaScript, React, Node.js, and more. This ebook provides step-by-step tutorials, real-world examples, and best practices to help you become a proficient web developer.",
+                features: [
+                    "300+ pages of in-depth content",
+                    "Real-world code examples & projects",
+                    "Lifetime updates with new technologies",
+                    "Responsive design principles",
+                    "Performance optimization techniques",
+                    "Deployment strategies and best practices"
+                ],
+                icon: "fas fa-book",
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            2: {
+                title: "Digital Marketing Mastery",
+                category: "ebook",
+                price: "599",
+                description: "Complete guide to digital marketing strategies for 2023 and beyond. Learn SEO, PPC, social media marketing, email campaigns, and analytics. This comprehensive resource covers everything from foundational concepts to advanced strategies used by top marketing agencies.",
+                features: [
+                    "Comprehensive SEO strategies",
+                    "PPC advertising techniques",
+                    "Social media marketing plans",
+                    "Email campaign optimization",
+                    "Analytics and performance tracking",
+                    "Content marketing frameworks"
+                ],
+                icon: "fas fa-book",
+                image: "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            3: {
+                title: "Python for Data Science",
+                category: "ebook",
+                price: "449",
+                description: "Learn Python programming and data analysis with practical examples. Master Pandas, NumPy, Matplotlib, and data visualization techniques. This guide takes you from Python basics to advanced data manipulation and machine learning concepts.",
+                features: [
+                    "Pandas for data manipulation",
+                    "NumPy for numerical computing",
+                    "Matplotlib for visualization",
+                    "Real-world data analysis projects",
+                    "Beginner to advanced progression",
+                    "Statistical analysis methods"
+                ],
+                icon: "fas fa-book",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+            },
+            4: {
+                title: "AI Content Creation Pack",
+                category: "ai-prompts",
+                price: "299",
+                description: "500+ carefully crafted prompts for AI content generation across multiple categories including blog posts, social media, emails, and more. This comprehensive collection will supercharge your content creation workflow and save you hours of brainstorming time.",
+                features: [
+                    "500+ unique and tested prompts",
+                    "Multiple content categories",
+                    "Regular updates with new prompts",
+                    "SEO-optimized content templates",
+                    "Brand voice customization guides"
+                ],
+                icon: "fas fa-robot",
+                image: null
+            },
+            5: {
+                title: "ChatGPT Business Prompts",
+                category: "ai-prompts",
+                price: "349",
+                description: "Professional prompts for business writing, marketing copy, strategy development, and corporate communications. These carefully designed prompts will help you leverage AI for various business needs while maintaining professional tone and brand consistency.",
+                features: [
+                    "Business proposal templates",
+                    "Marketing copy variations",
+                    "Strategic planning frameworks",
+                    "Professional email responses",
+                    "Corporate communication guides"
+                ],
+                icon: "fas fa-robot",
+                image: null
+            },
+            6: {
+                title: "Creative Writing AI Prompts",
+                category: "ai-prompts",
+                price: "249",
+                description: "Inspire your creativity with 300+ prompts for stories, poems, character development, and plot ideas across multiple genres. Whether you're writing fiction, poetry, or creative non-fiction, these prompts will help overcome writer's block and spark new ideas.",
+                features: [
+                    "Fiction & non-fiction categories",
+                    "Character development exercises",
+                    "Plot structure ideas",
+                    "Poetry and creative writing",
+                    "Writer's block solutions"
+                ],
+                icon: "fas fa-robot",
+                image: null
+            },
+            7: {
+                title: "Programming Languages Bundle",
+                category: "cheat-sheets",
+                price: "199",
+                description: "Essential cheat sheets for Python, JavaScript, Java, C++, PHP, and more. Perfect quick reference for developers of all levels. These visually organized references will help you quickly find syntax, methods, and best practices without searching through documentation.",
+                features: [
+                    "10+ programming languages covered",
+                    "Syntax reference for each language",
+                    "Printable PDF format",
+                    "Common algorithms and patterns",
+                    "Mobile-friendly digital version"
+                ],
+                icon: "fas fa-file-alt",
+                image: null
+            },
+            8: {
+                title: "Git & GitHub Commands",
+                category: "cheat-sheets",
+                price: "149",
+                description: "Complete reference for Git commands and GitHub workflows. Essential for version control and collaborative development. This comprehensive guide covers everything from basic commits to advanced branching strategies and team collaboration workflows.",
+                features: [
+                    "Essential Git commands",
+                    "GitHub workflow diagrams",
+                    "Troubleshooting common issues",
+                    "Branching strategies",
+                    "Collaboration best practices"
+                ],
+                icon: "fas fa-file-alt",
+                image: null
+            },
+            9: {
+                title: "CSS Flexbox & Grid",
+                category: "cheat-sheets",
+                price: "179",
+                description: "Visual guides for CSS Flexbox and Grid layout systems with practical examples and common layout patterns. Master modern CSS layout techniques with these easy-to-follow references that show exactly how to create responsive designs.",
+                features: [
+                    "Visual examples for each property",
+                    "Property reference guides",
+                    "Common layout patterns",
+                    "Browser compatibility notes",
+                    "Responsive design techniques"
+                ],
+                icon: "fas fa-file-alt",
+                image: null
+            },
+            10: {
+                title: "Business Strategy Templates",
+                category: "templates",
+                price: "399",
+                description: "Professional templates for business planning, strategy development, market analysis, and performance tracking. These ready-to-use templates will help you create comprehensive business plans, analyze markets, and track performance metrics effectively.",
+                features: [
+                    "15+ editable templates",
+                    "Multiple formats (PDF, Word, Excel)",
+                    "Customizable designs",
+                    "SWOT analysis templates",
+                    "Business model canvas"
+                ],
+                icon: "fas fa-chart-line",
+                image: null
+            },
+            11: {
+                title: "Social Media Content Calendar",
+                category: "templates",
+                price: "299",
+                description: "Plan and schedule your social media content with ease using this comprehensive content calendar template. Organize your content strategy across multiple platforms and track performance with built-in analytics sections.",
+                features: [
+                    "Monthly planning templates",
+                    "Content categories organization",
+                    "Performance tracking sheets",
+                    "Hashtag strategy guides",
+                    "Cross-platform scheduling"
+                ],
+                icon: "fas fa-chart-line",
+                image: null
+            },
+            12: {
+                title: "Notion Productivity System",
+                category: "templates",
+                price: "349",
+                description: "Complete Notion workspace templates for productivity, task management, project tracking, and habit formation. Transform your Notion into a powerful productivity hub with these professionally designed templates and workflows.",
+                features: [
+                    "Task management databases",
+                    "Project tracking systems",
+                    "Habit tracking templates",
+                    "Goal setting frameworks",
+                    "Weekly review templates"
+                ],
+                icon: "fas fa-chart-line",
+                image: null
+            },
+            13: {
+                title: "Full-Stack Web Development",
+                category: "courses",
+                price: "2999",
+                description: "Complete course covering front-end and back-end development with modern technologies and real-world projects. Learn to build complete web applications from scratch using industry-standard tools and practices.",
+                features: [
+                    "50+ hours of video content",
+                    "Real projects with code review",
+                    "Certificate of completion",
+                    "Lifetime access to updates",
+                    "Community support forum"
+                ],
+                icon: "fas fa-graduation-cap",
+                image: null
+            },
+            14: {
+                title: "Digital Marketing Certification",
+                category: "courses",
+                price: "2499",
+                description: "Become a certified digital marketing expert with this comprehensive course covering all aspects of online marketing. Learn strategies that actually work from industry professionals with years of experience.",
+                features: [
+                    "8 comprehensive modules",
+                    "Practical assignments",
+                    "Industry-recognized certification",
+                    "Case studies from real campaigns",
+                    "Marketing tool tutorials"
+                ],
+                icon: "fas fa-graduation-cap",
+                image: null
+            },
+            15: {
+                title: "Data Science with Python",
+                category: "courses",
+                price: "3499",
+                description: "Learn data analysis, visualization, and machine learning with Python through hands-on projects and real datasets. This course takes you from basic data manipulation to building predictive models using real-world scenarios.",
+                features: [
+                    "Hands-on projects with real data",
+                    "Machine learning algorithms",
+                    "Portfolio building guidance",
+                    "Statistical analysis techniques",
+                    "Data visualization mastery"
+                ],
+                icon: "fas fa-graduation-cap",
+                image: null
+            }
+        };
+
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("service_x1orusw");
+        })();
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+
+        // Category filtering
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const productCards = document.querySelectorAll('.product-card');
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const category = this.getAttribute('data-category');
+                
+                // Show/hide products based on category
+                productCards.forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Product detail modal
+        const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
+        const productModal = document.getElementById('product-modal');
+        const modalProductImage = document.getElementById('modal-product-image');
+        const modalProductIcon = document.getElementById('modal-product-icon');
+        const modalProductCategory = document.getElementById('modal-product-category');
+        const modalProductTitle = document.getElementById('modal-product-title');
+        const modalProductPrice = document.getElementById('modal-product-price');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const modalProductFeatures = document.getElementById('modal-product-features');
+        const modalBuyBtn = document.getElementById('modal-buy-btn');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        
+        viewDetailsButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.getAttribute('data-product');
+                const product = products[productId];
+                
+                // Update modal content
+                if (product.image) {
+                    // Show image and hide icon
+                    modalProductImage.src = product.image;
+                    modalProductImage.style.display = 'block';
+                    modalProductIcon.style.display = 'none';
+                } else {
+                    // Show icon and hide image
+                    modalProductIcon.className = product.icon;
+                    modalProductIcon.style.display = 'block';
+                    modalProductImage.style.display = 'none';
+                }
+                
+                modalProductCategory.textContent = getCategoryName(product.category);
+                modalProductTitle.textContent = product.title;
+                modalProductPrice.textContent = `₹${product.price}`;
+                modalProductDescription.textContent = product.description;
+                
+                // Clear existing features
+                modalProductFeatures.innerHTML = '';
+                
+                // Add new features
+                product.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fas fa-check"></i> ${feature}`;
+                    modalProductFeatures.appendChild(li);
+                });
+                
+                // Set up buy button
+                modalBuyBtn.onclick = function() {
+                    // Fill the payment form
+                    document.getElementById('product').value = product.title;
+                    document.getElementById('amount').value = product.price;
+                    
+                    // Close modal and scroll to payment section
+                    productModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    document.getElementById('payment').scrollIntoView({ behavior: 'smooth' });
+                };
+                
+                // Show modal
+                productModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Helper function to get category display name
+        function getCategoryName(category) {
+            const categoryNames = {
+                'ebook': 'Ebook',
+                'ai-prompts': 'AI Prompts',
+                'cheat-sheets': 'Cheat Sheets',
+                'templates': 'Templates',
+                'courses': 'Course'
+            };
+            return categoryNames[category] || category;
+        }
+
+        // Form submission
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const product = document.getElementById('product').value;
+            const amount = document.getElementById('amount').value;
+            const transaction = document.getElementById('transaction').value;
+            const message = document.getElementById('message').value;
+            
+            // Add loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.classList.add('loading');
+            
+            // Send email using EmailJS
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                product: product,
+                amount: amount,
+                transaction: transaction,
+                message: message
+            };
+            
+            emailjs.send('service_x1orusw', 'template_payment_confirmation', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    // Show success modal
+                    document.getElementById('success-modal').style.display = 'flex';
+                    // Reset form
+                    document.getElementById('payment-form').reset();
+                    // Reset button
+                    submitBtn.textContent = originalText;
+                    submitBtn.classList.remove('loading');
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    alert('There was an error sending your confirmation. Please try again or email us directly at suchiangsanki3@gmail.com');
+                    // Reset button
+                    submitBtn.textContent = originalText;
+                    submitBtn.classList.remove('loading');
+                });
+        });
+
+        // Close modals
+        const closeModalButtons = document.querySelectorAll('.close-modal, .close-modal-btn, #modal-close-btn');
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('success-modal').style.display = 'none';
+                document.getElementById('product-modal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('success-modal')) {
+                document.getElementById('success-modal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            if (e.target === document.getElementById('product-modal')) {
+                document.getElementById('product-modal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('success-modal').style.display = 'none';
+                document.getElementById('product-modal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
